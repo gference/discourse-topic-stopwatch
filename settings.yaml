@@ -1,0 +1,4 @@
+tag_name:
+  default: ""
+  type: string
+  description: "The stopwatch will appear in all topics with this tag"
