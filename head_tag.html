@@ -1,0 +1,56 @@
+<script type="text/discourse-plugin" version="0.8.18">
+    api.addPostTransformCallback((topic) => {
+        if ($(".topic-header-extra .tag-" + settings.tag_name).length && topic.post_number === 1 && $("#stopwatch-container").length == 0) {
+            $(function() {
+                const stopwatchHTML = '<div id="stopwatch-container"><h1 id="stopwatch-time">00:00:00.00</h1><button id="controlButton" class="btn btn-default btn btn-icon-text">Start</button></div>';
+                $(".topic-category").after(stopwatchHTML);
+                
+                let h1 = $('#stopwatch-time');
+                let controlButton = $('#controlButton');
+                let tOut = 0;
+                
+                function timer() {
+                    let start = new Date().getTime();
+                    let diff = 0;
+                    let diffDate = {};
+                    let milliseconds = 0, seconds = 0, minutes = 0, hours = 0;
+                    let displayTime = "";
+                    function instance() {
+                        diff = (Date.now() - start);
+                        diffDate = new Date(diff);
+                        
+                        milliseconds = Math.floor(diffDate.getMilliseconds()/10);
+                        seconds = diffDate.getSeconds();
+                        minutes = diffDate.getMinutes();
+                        hours = Math.floor(diff/3600000);
+                        
+                        displayTime = 
+                            (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + 
+                            (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + 
+                            (seconds ? (seconds > 9 ? seconds : "0" + seconds) : "00") + "." + 
+                            (milliseconds > 9 ? milliseconds : "0" + milliseconds);
+                        
+                        h1.html(displayTime);
+                        tOut = setTimeout(instance, 10);
+                    }
+                    instance();
+                }
+
+                controlButton.click(function() {
+                    if (controlButton.html() == "Start") {
+                        controlButton.html("Stop");
+                        timer();
+                    }
+                    else if (controlButton.html() == "Stop") {
+                        controlButton.html("Reset");
+                        clearTimeout(tOut);
+                    }
+                    else { // if "Reset"
+                        controlButton.html("Start");
+                        h1.html("00:00:00.00");
+                    }
+                });
+            });
+        }
+    });
+</script>

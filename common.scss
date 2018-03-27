@@ -1,0 +1,19 @@
+#stopwatch-container {
+    width: calc(100% - 20px);
+    max-width: 760px;
+    text-align: right;
+    position: absolute;
+}
+
+#stopwatch-time {
+    display: inline-block;
+    overflow: initial !important;
+    width: 5.6em !important;
+    text-align: left;
+}
+
+#controlButton {
+    width: 4.4em;
+    margin-left: .5em;
+    transform: translateY(-12.5%);
+}
