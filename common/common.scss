@@ -7,7 +7,8 @@
 }
 
 #stopwatch-time {
-    display: inline;
+    display: inline-block;
+    float: left;
     overflow: initial !important;
     width: 5.6em !important;
     text-align: left;
@@ -16,5 +17,4 @@
 #controlButton {
     width: 4.4em;
     margin-left: .5em;
-    transform: translateY(-12.5%);
 }
