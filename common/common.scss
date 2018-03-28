@@ -1,12 +1,13 @@
 #stopwatch-container {
-    width: calc(100% - 20px);
-    max-width: 760px;
-    text-align: right;
-    position: absolute;
+    position: relative;
+    min-width: 15em;
+    margin-left: auto;
+    margin-bottom: -15px;
+    padding-right: calc(100% - 765px);
 }
 
 #stopwatch-time {
-    display: inline-block;
+    display: inline;
     overflow: initial !important;
     width: 5.6em !important;
     text-align: left;
