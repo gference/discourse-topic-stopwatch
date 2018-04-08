@@ -1,0 +1,11 @@
+@if $display_on_mobile {
+    #stopwatch-container {
+        position: relative;
+        right: initial;
+        margin-top: 0;
+    }
+} @else {
+    #stopwatch-container {
+        display: none;
+    }
+}
