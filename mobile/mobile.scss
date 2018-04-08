@@ -1,4 +1,4 @@
-@if $display_on_mobile {
+@if $display_on_mobile == 'true' {
     #stopwatch-container {
         position: relative;
         right: initial;
