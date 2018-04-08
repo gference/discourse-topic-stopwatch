@@ -1,56 +1,74 @@
-<script type="text/discourse-plugin" version="0.8.18">
-    api.addPostTransformCallback((topic) => {
-        if ($(".topic-header-extra .tag-" + settings.tag_name).length && topic.post_number === 1 && $("#stopwatch-container").length == 0) {
-            $(function() {
-                const stopwatchHTML = '<div id="stopwatch-container"><h1 id="stopwatch-time">00:00:00.00</h1><button id="controlButton" class="btn btn-default btn btn-icon-text">Start</button></div>';
-                $(".topic-category").after(stopwatchHTML);
-                
-                let h1 = $('#stopwatch-time');
-                let controlButton = $('#controlButton');
-                let tOut = 0;
-                
-                function timer() {
-                    let start = new Date().getTime();
-                    let diff = 0;
-                    let diffDate = {};
-                    let milliseconds = 0, seconds = 0, minutes = 0, hours = 0;
-                    let displayTime = "";
-                    function instance() {
-                        diff = (Date.now() - start);
-                        diffDate = new Date(diff);
-                        
-                        milliseconds = Math.floor(diffDate.getMilliseconds()/10);
-                        seconds = diffDate.getSeconds();
-                        minutes = diffDate.getMinutes();
-                        hours = Math.floor(diff/3600000);
-                        
-                        displayTime = 
-                            (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + 
-                            (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + 
-                            (seconds ? (seconds > 9 ? seconds : "0" + seconds) : "00") + "." + 
-                            (milliseconds > 9 ? milliseconds : "0" + milliseconds);
-                        
-                        h1.html(displayTime);
-                        tOut = setTimeout(instance, 10);
-                    }
-                    instance();
-                }
-
-                controlButton.click(function() {
-                    if (controlButton.html() == "Start") {
-                        controlButton.html("Stop");
-                        timer();
-                    }
-                    else if (controlButton.html() == "Stop") {
-                        controlButton.html("Reset");
-                        clearTimeout(tOut);
-                    }
-                    else { // if "Reset"
-                        controlButton.html("Start");
-                        h1.html("00:00:00.00");
-                    }
-                });
-            });
+<script type="text/discourse-plugin" version="0.8">
+    const container = Discourse.__container__;    
+    const controller = container.lookup('controller:topic');
+    const { h } = require('virtual-dom');
+    let tOut = 0;
+        
+    api.createWidget('stopwatch-container-widget', {
+        tagName: 'div#stopwatch-container', 
+        html(attrs, state) {
+            if(controller.model.tags.indexOf(settings.tag_name) > 0) {
+                return [
+                    h('h1#stopwatch-time', '00:00:00.00'),
+                    this.attach('start-button-widget')
+                ];
+            }
+            else {
+                return;
+            }
         }
-    });
+    }); 
+    api.createWidget('start-button-widget', {
+        tagName: 'button#controlButton.btn.btn-default.btn.btn-icon-text', 
+        html(attrs, state) {
+            return 'Start';
+        },
+        click() {
+            let clock = $('#stopwatch-time');
+            let controlButton = $('#controlButton');
+
+            if (controlButton.html() == "Start") {
+                controlButton.html("Stop");
+                this.timer(clock);
+            }
+            else if (controlButton.html() == "Stop") {
+                controlButton.html("Reset");
+                clearTimeout(tOut);
+            }
+            else { // if "Reset"
+                controlButton.html("Start");
+                clock.html("00:00:00.00");
+            }
+        },
+        timer(clock) {
+            let start = new Date().getTime();
+            let diff = 0;
+            let diffDate = {};
+            let milliseconds = 0, seconds = 0, minutes = 0, hours = 0;
+            let displayTime = "";
+            function instance() {
+                diff = (Date.now() - start);
+                diffDate = new Date(diff);
+                
+                milliseconds = Math.floor(diffDate.getMilliseconds()/10);
+                seconds = diffDate.getSeconds();
+                minutes = diffDate.getMinutes();
+                hours = Math.floor(diff/3600000);
+                
+                displayTime = 
+                    (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + 
+                    (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + 
+                    (seconds ? (seconds > 9 ? seconds : "0" + seconds) : "00") + "." + 
+                    (milliseconds > 9 ? milliseconds : "0" + milliseconds);
+                
+                clock.html(displayTime);
+                tOut = setTimeout(instance, 10);
+            }
+            instance();
+        }
+    });    
+</script> 
+
+<script type='text/x-handlebars' data-template-name='/connectors/topic-above-posts/stopwatch-container-widget'>
+    {{mount-widget widget="stopwatch-container-widget"}}
 </script>
