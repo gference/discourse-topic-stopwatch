@@ -3,10 +3,10 @@ tag_name:
   type: string
   description: "The stopwatch will appear in all topics with this tag"
 button_spacing:
-  default: 0.5
+  default: 0.2
   type: float
   description: "Adjust the spacing between the clock and the control button (0.5 - 5.0)"
-  min: 0.5
+  min: 0.2
   max: 5.0
 display_on_mobile:
   default: true
