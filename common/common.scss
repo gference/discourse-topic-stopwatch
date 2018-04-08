@@ -12,9 +12,9 @@ h1#stopwatch-time {
     overflow: initial !important;
     width: 5.6em !important;
     text-align: left;
+    margin-right: #{$button_spacing}em;
 }
 
 #controlButton {
     width: 4.4em;
-    margin-left: #{$button_spacing}em;
 }
