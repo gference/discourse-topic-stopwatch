@@ -8,3 +8,6 @@ button_spacing:
   description: "Adjust the spacing between the clock and the control button (0.5 - 5.0)"
   min: 0.5
   max: 5.0
+display_on_mobile:
+  default: true
+  type: bool
