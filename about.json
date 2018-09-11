@@ -1,5 +1,6 @@
 {
   "name": "Topic Stopwatch Theme Component",
   "about_url": "https://meta.discourse.org/t/83939",
-  "license_url": "https://github.com/tshenry/discourse-topic-stopwatch/blob/master/LICENSE"
+  "license_url": "https://github.com/tshenry/discourse-topic-stopwatch/blob/master/LICENSE",
+  "component": true
 }
