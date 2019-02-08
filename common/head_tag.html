@@ -7,7 +7,8 @@
     api.createWidget('stopwatch-container-widget', {
         tagName: 'div#stopwatch-container', 
         html(attrs, state) {
-            if(controller.model.tags.indexOf(settings.tag_name) >= 0) {
+            let tags = controller.model.tags;
+            if(tags && tags.indexOf(settings.tag_name) >= 0) {
                 return [
                     h('h1#stopwatch-time', '00:00:00.00'),
                     this.attach('start-button-widget')
